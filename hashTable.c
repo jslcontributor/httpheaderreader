@@ -16,7 +16,7 @@ struct HashTable{
 
 int hashIndex(char *key) {
     int totalValue = 0;
-    while(key != NULL){
+    while(*key != '\0'){
         totalValue += (int)( *key);
 	++key;
     }
@@ -24,10 +24,17 @@ int hashIndex(char *key) {
 
 }
 
+void HashTableMemSet(struct HashTable *ht){
+    for(int i=0; i<LENGTH; i++){
+        ht->hashArray[i] = NULL;
+    }
+}
+
 struct Node *search(char *key, struct HashTable *ht){
     int index = hashIndex(key);
     struct Node *ptr = ht->hashArray[index];
     while(ptr != NULL){
+	//if(ptr->occurences == 0) return NULL;
         if( strcmp(ptr->key, key) == 0){ //i.e the strings are equal
 	    ++(ptr->occurences); //we increment occurences (i.e value)
     //to keep track of how many times we searched for the word
@@ -39,14 +46,15 @@ struct Node *search(char *key, struct HashTable *ht){
 }
 
 void insert(char *key, struct HashTable *ht){ //assumes no duplicates
-    struct Node *new = (struct Node*) malloc(sizeof(struct Node));
-    new->key = key;
-    new->occurences = 1; //we are inserting when we first occur a new word
+    struct Node *neww = (struct Node*) malloc(sizeof(struct Node));
+    neww->key = (char*) malloc(sizeof(key));
+    strcpy(neww->key, key);
+    neww->occurences = 1; //we are inserting when we first occur a new word
     
     int index = hashIndex(key);  //index we need to insert at
 
     if(ht->hashArray[index] == NULL){ //i.e no linked list head here
-        ht->hashArray[index] = new;   //then make one
+        ht->hashArray[index] = neww;   //then make one
     }
     else{ //else then there is a linked list head so traverse to the end 
 	  // and add  the new node there
@@ -54,7 +62,7 @@ void insert(char *key, struct HashTable *ht){ //assumes no duplicates
 	while(ptr-> next != NULL){
 	    ptr = ptr->next;
 	}
-	ptr->next = new;
+	ptr->next = neww;
     }
 
 }

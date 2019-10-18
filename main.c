@@ -77,7 +77,7 @@ int main(int argc, char *argv[]){
     //My implementation of a HashTable is technically a hash Map
     // key = header  value = number of occurences
     struct HashTable ht;  
-    
+    HashTableMemSet(&ht); 
     //scan the file line by line, if the file is openable, the program assumes
     //it's a valid file of headers.   As we scan each line, we are determining
     //if each line indeed contains a header, and if it does, it determines if 
@@ -95,8 +95,8 @@ int main(int argc, char *argv[]){
 	 //the idea being that we can extract the word because it is before ':'
         if(colPtr != NULL){
 	    char key[sizeof(line)];
-	    memset(key, '\0', sizeof(key));
             strncpy(key, line, (int)(colPtr - line));
+            key[(int)(colPtr - line)] = '\0';	   
 	    temp = search(key, &ht);
 	    if(temp == NULL){
                 insert(key, &ht);
@@ -105,15 +105,12 @@ int main(int argc, char *argv[]){
     }
 
     //at this point, the hashMap is filled, so we need to iterate through the 
-    //elements.  we will also free memory here.
-    struct Node *next;
+    //elements. 
     for(int i=0; i<LENGTH; i++){
         temp = ht.hashArray[i];
 	while(temp != NULL){
             printf(STR_RESULT, temp->key, temp->occurences);
-	    next = temp->next;
-	    free(temp);
-	    temp = next;
+	    temp = temp->next;
         }
 
     }
