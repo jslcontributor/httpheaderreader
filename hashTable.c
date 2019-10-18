@@ -26,7 +26,7 @@ int hashIndex(char *key) {
 
 struct Node *search(char *key, struct *HashTable ht){
     int index = hashIndex(key);
-    Node *ptr = ht->hashArray[index];
+    struct Node *ptr = ht->hashArray[index];
     while(ptr != NULL){
         if( strcmp(ptr->key, key) == 0){ //i.e the strings are equal
 	    ++(ptr->occurences); //we increment occurences (i.e value)
@@ -39,9 +39,9 @@ struct Node *search(char *key, struct *HashTable ht){
 }
 
 void insert(char *key, struct *HashTable ht){ //assumes no duplicates
-    Node *new = (struct Node*) malloc(sizeof(struct Node));
+    struct Node *new = (struct Node*) malloc(sizeof(struct Node));
     new->key = key;
-    new->occurences = 0;
+    new->occurences = 1; //we are inserting when we first occur a new word
     
     int index = hashIndex(key);  //index we need to insert at
 
@@ -50,7 +50,7 @@ void insert(char *key, struct *HashTable ht){ //assumes no duplicates
     }
     else{ //else then there is a linked list head so traverse to the end 
 	  // and add  the new node there
-        Node *ptr = ht->hashArray[index];
+        struct Node *ptr = ht->hashArray[index];
 	while(ptr-> next != NULL){
 	    ptr = ptr->next;
 	}
