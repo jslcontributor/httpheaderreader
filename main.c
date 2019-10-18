@@ -44,7 +44,7 @@ int main(int argc, char *argv[]){
     //This is so that we can determine if the file exists, and also that the file is not a directory
     errno = 0;
     struct stat buf;
-    stat(filename, &buf);
+    stat(argv[1], &buf);
     if(errno != 0){ //return error if building stat fails, i.e file does not exist
         fprintf(stderr, FILE_DNE);
 	return EXIT_FAILURE;
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]){
 
     errno = 0;
     //We will now attempt to open the file
-    FILE *fp = fopen(filename, "r");
+    FILE *fp = fopen(argv[1], "r");
     if(errno != 0){ //returns error if the file cannot be opened
         fprintf(stderr, FILE_NOPEN);
 	return EXIT_FAILURE;
@@ -112,7 +112,7 @@ int main(int argc, char *argv[]){
 	while(temp != NULL){
             printf(STR_RESULT, temp->key, temp->occurences);
 	    next = temp->next;
-	    delete temp;
+	    free(temp);
 	    temp = next;
         }
 

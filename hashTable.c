@@ -24,7 +24,7 @@ int hashIndex(char *key) {
 
 }
 
-struct Node *search(char *key, struct *HashTable ht){
+struct Node *search(char *key, struct HashTable *ht){
     int index = hashIndex(key);
     struct Node *ptr = ht->hashArray[index];
     while(ptr != NULL){
@@ -38,7 +38,7 @@ struct Node *search(char *key, struct *HashTable ht){
     return NULL;
 }
 
-void insert(char *key, struct *HashTable ht){ //assumes no duplicates
+void insert(char *key, struct HashTable *ht){ //assumes no duplicates
     struct Node *new = (struct Node*) malloc(sizeof(struct Node));
     new->key = key;
     new->occurences = 1; //we are inserting when we first occur a new word
