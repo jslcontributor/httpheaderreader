@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 
 #include "projStrings.h"
-
+#include "hashTable.c"
 
 /*
  * Function Name: main()
