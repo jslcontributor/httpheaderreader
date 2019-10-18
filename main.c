@@ -85,7 +85,9 @@ int main(int argc, char *argv[]){
     //a new slot in the hashtable
     char *line = NULL;
     struct Node *temp;
-    size_t len = 100;
+    size_t len = 200;  //sets a hard 200 byte limitation for each line...
+
+
     char *colPtr; //searches for the first occurence of ':' to check for header
                   //assuming the file is formatted correctly, this should work
 		  //only edge case when the first line of the header block has
@@ -94,7 +96,7 @@ int main(int argc, char *argv[]){
         colPtr = strchr(line, ':');  //search for the first occurence of ':'
 	 //the idea being that we can extract the word because it is before ':'
         if(colPtr != NULL){
-	    char key[100];
+	    char key[100];  //sets a hard 100 byte limitation for key....
             strncpy(key, line, (int)(colPtr - line));
             key[(int)(colPtr - line)] = '\0';	   
 	    temp = search(key, &ht);

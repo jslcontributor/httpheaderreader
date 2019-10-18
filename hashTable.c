@@ -1,19 +1,44 @@
+/* Filename: hashTable.c
+ * Author: Justin Lee
+ * Date: 17 October 2019
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define LENGTH 30
+#define LENGTH 30 //hashmap is fixed length
 
+
+/* Purpose of File:
+ *
+ * This is an implementation of a HashMap.  We are using a HashMap in order 
+ * to store and check the occurences of each header we encounter.  Using
+ * a HashMap allows us to have constance time search and insert.
+ *
+ * Key = char *key = header
+ * Value = int occurences = number of occurences
+ *
+ * This implementation of a HashMap handles collisions by storing data
+ * in an array of linkedlist
+ */
+
+
+
+//Node Object for the hashMap, stores key and value(occurences) as well as 
+//a pointer to the next Node to give Nodes a linkedlist capability
 struct Node{
     char *key;
     int occurences;
     struct Node *next;
 };
 
+//Defines a Hashtable "object"
 struct HashTable{
     struct Node *hashArray[LENGTH];
 };
 
+//hashing function to get index from key.  very simple calculation
 int hashIndex(char *key) {
     int totalValue = 0;
     while(*key != '\0'){
@@ -24,17 +49,19 @@ int hashIndex(char *key) {
 
 }
 
+//initializes the elements of the array container in the HashTable to NULL
 void HashTableMemSet(struct HashTable *ht){
     for(int i=0; i<LENGTH; i++){
         ht->hashArray[i] = NULL;
     }
 }
 
+//our search function increments the value(occurences) upoon a succesful
+//search of the key in order to document each occurence
 struct Node *search(char *key, struct HashTable *ht){
     int index = hashIndex(key);
     struct Node *ptr = ht->hashArray[index];
     while(ptr != NULL){
-	//if(ptr->occurences == 0) return NULL;
         if( strcmp(ptr->key, key) == 0){ //i.e the strings are equal
 	    ++(ptr->occurences); //we increment occurences (i.e value)
     //to keep track of how many times we searched for the word
