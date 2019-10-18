@@ -85,7 +85,7 @@ int main(int argc, char *argv[]){
     //a new slot in the hashtable
     char *line = NULL;
     struct Node *temp;
-    size_t len = 0;
+    size_t len = 100;
     char *colPtr; //searches for the first occurence of ':' to check for header
                   //assuming the file is formatted correctly, this should work
 		  //only edge case when the first line of the header block has
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]){
         colPtr = strchr(line, ':');  //search for the first occurence of ':'
 	 //the idea being that we can extract the word because it is before ':'
         if(colPtr != NULL){
-	    char key[sizeof(line)];
+	    char key[100];
             strncpy(key, line, (int)(colPtr - line));
             key[(int)(colPtr - line)] = '\0';	   
 	    temp = search(key, &ht);
@@ -105,14 +105,17 @@ int main(int argc, char *argv[]){
     }
 
     //at this point, the hashMap is filled, so we need to iterate through the 
-    //elements. 
+    //elements.  also memory is freed here
+    struct Node *next; 
     for(int i=0; i<LENGTH; i++){
         temp = ht.hashArray[i];
 	while(temp != NULL){
             printf(STR_RESULT, temp->key, temp->occurences);
-	    temp = temp->next;
+	    next = temp->next;
+	    free(temp->key);
+	    free(temp);
+	    temp = next;
         }
-
     }
 
     return EXIT_SUCCESS;

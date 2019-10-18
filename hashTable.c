@@ -50,7 +50,7 @@ void insert(char *key, struct HashTable *ht){ //assumes no duplicates
     neww->key = (char*) malloc(sizeof(key));
     strcpy(neww->key, key);
     neww->occurences = 1; //we are inserting when we first occur a new word
-    
+    neww->next = NULL;
     int index = hashIndex(key);  //index we need to insert at
 
     if(ht->hashArray[index] == NULL){ //i.e no linked list head here
